@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+	<select id="getBlog" parameterType="uservo" resultType="blogvo">
+		<![CDATA[select id, title, logo from blog where id = #{id}]]>
+	</select>
+
+	<update id="updateBasic" parameterType="blogvo">
+		<![CDATA[update blog set title = #{title}, logo = null where id = #{id}]]>
+	</update>
+
+	<select id="selectCategory" parameterType="uservo" resultType="categoryvo">
+		<![CDATA[select no, name, description, reg_date, id from category where id = #{id}]]>
+	</select>
+
+	<insert id="insertPost" parameterType="postvo">
+		<![CDATA[insert into post values(null, #{title}, #{content}, now(), #{category_no})]]>
+	</insert>
+	
+	<select id="selectCateList" parameterType="uservo" resultType="categoryvo">
+		<![CDATA[select c.no, c.name, c.description, c.reg_date, c.id, count(*) as post_count from category c, post p where c.no = p.category_no and id = #{id} group by c.no order by no desc]]>
+	</select>
+	
+	<delete id="deletePostList" parameterType="map">
+		<![CDATA[delete from post where category_no = #{cate_no}]]>
+	</delete>
+	
+	<delete id="deleteCateList" parameterType="map">
+		<![CDATA[delete from category where no = #{cate_no} and id = #{id}]]>
+	</delete>
+</mapper>
