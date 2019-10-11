@@ -19,8 +19,7 @@ public class BlogDao {
 		input_map.put("categoryNo", categoryNo);
 		input_map.put("postNo", postNo);
 		
-		map.put("blog", sqlSession.selectOne("blog.select_title", id));
-		//map.put("blog_logo", sqlSession.selectOne("blog.select_logo", id));
+		map.put("blog", sqlSession.selectOne("blog.select_blog", id));
 		
 		System.out.println("카테:" + categoryNo);
 		System.out.println("포스트:" +postNo);
@@ -28,8 +27,6 @@ public class BlogDao {
 		map.put("category", sqlSession.selectList("blog.select_category", id));
 		map.put("post", sqlSession.selectList("blog.select_post_all", input_map));
 		
-		
 		return map;
 	}
-
 }

@@ -14,6 +14,7 @@
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
 		<ul class="menu">
+			<li><a href="${pageContext.servletContext.contextPath}">메인</a></li>
 			<c:choose>
 				<c:when test="${empty authUser}">
 					<li><a href="${pageContext.servletContext.contextPath}/user/join">회원가입</a></li>

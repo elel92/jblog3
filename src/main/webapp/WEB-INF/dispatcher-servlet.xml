@@ -73,7 +73,10 @@
         </mvc:interceptor>
     </mvc:interceptors>
 	-->
-	 
+	
+	<!-- file upload mapping -->
+	<mvc:resources location="file:/uploads/" mapping="/assets/LogoImg/**"/>
+	
 	<!-- ViewResolver 설정  -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	   <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

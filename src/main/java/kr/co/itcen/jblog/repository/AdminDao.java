@@ -27,7 +27,11 @@ public class AdminDao {
 	public void updateBasic(BlogVo vo) {
 		sqlSession.update("admin.updateBasic", vo);
 	}
-
+	
+	public void updateBasic_logo(BlogVo vo) {
+		sqlSession.update("admin.updateBasic_logo", vo);
+	}
+	
 	public List<CategoryVo> getCategory(UserVo userVo) {
 		List<CategoryVo> list = sqlSession.selectList("admin.selectCategory", userVo);
 		
@@ -51,5 +55,14 @@ public class AdminDao {
 		
 		sqlSession.delete("deletePostList", map);
 		sqlSession.delete("deleteCateList", map);
+	}
+
+	public void insertCateList(String id, String cate_name, String cate_desc) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("name", cate_name);
+		map.put("description", cate_desc);
+		
+		sqlSession.insert("insertCateList", map);
 	}
 }

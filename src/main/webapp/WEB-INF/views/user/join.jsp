@@ -22,6 +22,7 @@
 		<h1 class="logo">JBlog</h1>
 		
 		<ul class="menu">
+			<li><a href="${pageContext.servletContext.contextPath}">메인</a></li>
 			<li><a href="${pageContext.servletContext.contextPath}/user/login">로그인</a></li>
 		</ul>
 		<form:form modelAttribute="userVo" class="join-form" name="loginform" id="join-form" method="post" action="${pageContext.servletContext.contextPath}/user/join">

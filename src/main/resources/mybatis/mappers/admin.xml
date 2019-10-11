@@ -9,9 +9,13 @@
 	<update id="updateBasic" parameterType="blogvo">
 		<![CDATA[update blog set title = #{title}, logo = null where id = #{id}]]>
 	</update>
+	
+	<update id="updateBasic_logo" parameterType="blogvo">
+		<![CDATA[update blog set title = #{title}, logo = #{logo} where id = #{id}]]>
+	</update>
 
 	<select id="selectCategory" parameterType="uservo" resultType="categoryvo">
-		<![CDATA[select no, name, description, reg_date, id from category where id = #{id}]]>
+		<![CDATA[select no, name, description, reg_date, id from category where id = #{id} order by no desc]]>
 	</select>
 
 	<insert id="insertPost" parameterType="postvo">
@@ -19,7 +23,7 @@
 	</insert>
 	
 	<select id="selectCateList" parameterType="uservo" resultType="categoryvo">
-		<![CDATA[select c.no, c.name, c.description, c.reg_date, c.id, count(*) as post_count from category c, post p where c.no = p.category_no and id = #{id} group by c.no order by no desc]]>
+		<![CDATA[select category.no, category.name, category.description, category.reg_date, category.id, count(post.no) as post_count from category left join post on category.no = post.category_no where id = #{id} group by category.no order by category.no desc]]>
 	</select>
 	
 	<delete id="deletePostList" parameterType="map">
@@ -29,4 +33,8 @@
 	<delete id="deleteCateList" parameterType="map">
 		<![CDATA[delete from category where no = #{cate_no} and id = #{id}]]>
 	</delete>
+	
+	<insert id="insertCateList" parameterType="map">
+		<![CDATA[insert into category values(null, #{name}, #{description}, now(), #{id})]]>
+	</insert>
 </mapper>

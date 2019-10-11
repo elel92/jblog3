@@ -24,8 +24,8 @@ public class UserDao {
 	public void insertBlog(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		map.put("title", "님의 블로그입니다.");
-		//map.put("logo", userVo.getId());
+		map.put("title", id+"님의 블로그입니다.");
+		map.put("logo", "/assets/images/logo.jpg");
 		
 		sqlSession.insert("user.insertBlog", map);
 	}

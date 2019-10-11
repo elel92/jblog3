@@ -1,11 +1,9 @@
 package kr.co.itcen.jblog.vo;
 
-import java.sql.Blob;
-
 public class BlogVo {
 	private String id;
 	private String title;
-	private Blob logo;
+	private String logo;
 	
 	public String getId() {
 		return id;
@@ -23,11 +21,11 @@ public class BlogVo {
 		this.title = title;
 	}
 	
-	public Blob getLogo() {
+	public String getLogo() {
 		return logo;
 	}
 	
-	public void setLogo(Blob logo) {
+	public void setLogo(String logo) {
 		this.logo = logo;
 	}
 

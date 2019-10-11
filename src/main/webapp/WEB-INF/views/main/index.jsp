@@ -14,6 +14,7 @@
 		<h1 class="logo">JBlog</h1>
 		
 		<ul class="menu">
+			<li><a href="${pageContext.servletContext.contextPath}">메인</a></li>
 			<c:choose>
 				<c:when test="${empty authUser}">
 					<li><a href="${pageContext.servletContext.contextPath}/user/login">로그인</a></li>
@@ -21,9 +22,9 @@
 				</c:when>
 				<c:otherwise>
 					<li><a href="${pageContext.servletContext.contextPath}/user/logout">로그아웃</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/${authUser.id}">내블로그</a></li>
 				</c:otherwise>
 			</c:choose>
-			<li><a href="${pageContext.servletContext.contextPath}/${authUser.id}">내블로그</a></li>
 		</ul>
 		
 		<form class="search-form">

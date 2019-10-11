@@ -10,11 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.itcen.jblog.service.AdminService;
 import kr.co.itcen.jblog.vo.BlogVo;
@@ -47,7 +47,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="admin/updateBasic", method=RequestMethod.POST)
-	public String updateBasic(@ModelAttribute BlogVo vo, HttpServletRequest request) {
+	public String updateBasic(@ModelAttribute BlogVo vo, @RequestParam(value="logo-file", required=false) MultipartFile multipartFile, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		
 		if(session == null || session.getAttribute("authUser") == null) {
@@ -56,7 +56,7 @@ public class AdminController {
 		
 		UserVo userVo = (UserVo)session.getAttribute("authUser");
 		
-		adminService.updateBasic(vo);
+		adminService.updateBasic(vo, multipartFile);
 		
 		return "redirect:/" + userVo.getId();
 	}
@@ -115,23 +115,24 @@ public class AdminController {
 	
 	@ResponseBody
 	@RequestMapping("admin/delete")
-	public String delete(@PathVariable String id, @RequestParam(value = "cate_no", required = false) String cate_no, Model model) {
-		System.out.println("id....." + id);
-		System.out.println("cate_no....." + cate_no);
-		
+	public String delete(@PathVariable String id, @RequestParam(value="cate_no", required=false) String cate_no) {
 		adminService.deleteCate(id, cate_no);
 		
-		List<CategoryVo> cate_list = adminService.getCateList(id);
-		model.addAttribute("cate_list", cate_list);
-		
-		return "gdgd";
+		return "success";
 	}
 	
 	@ResponseBody
 	@RequestMapping("admin/insert")
-	public String insert(@PathVariable String id) {
-		System.out.println("insert::" + id);
-		return id;
+	public List<CategoryVo> insert(@PathVariable String id, @RequestParam(value="cate_name", required=false) String cate_name, @RequestParam(value="cate_desc", required=false) String cate_desc, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		UserVo userVo = (UserVo)session.getAttribute("authUser");
+		
+		adminService.insertCate(id, cate_name, cate_desc);
+		List<CategoryVo> cate_list = adminService.getCategory(userVo);
+		System.out.println(cate_list);
+		
+		return cate_list;
 	}
 }
 

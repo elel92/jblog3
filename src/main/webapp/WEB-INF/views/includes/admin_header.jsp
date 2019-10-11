@@ -17,6 +17,8 @@
 					<li><a href="${pageContext.servletContext.contextPath}/${authUser.id}/admin/basic">블로그 관리</a></li>
 				</c:otherwise>
 			</c:choose>
+			<li><a href="${pageContext.servletContext.contextPath}/${authUser.id}">블로그 메인</a></li>
+			<li><a href="${pageContext.servletContext.contextPath}">메인</a></li>
 		</ul>
 	</div>
 </div>

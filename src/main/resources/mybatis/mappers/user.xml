@@ -7,7 +7,7 @@
 	</insert>
 	
 	<insert id="insertBlog" parameterType="map">
-		<![CDATA[insert into blog values(#{id}, #{title}, null)]]>
+		<![CDATA[insert into blog values(#{id}, #{title}, #{logo})]]>
 	</insert>
 	
 	<select id="selectRegDate" parameterType="String" resultType="String">

@@ -9,47 +9,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JBlog</title>
-<Link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
+<Link rel="stylesheet" href="${pageContext.servletContext.contextPath}/assets/css/jblog.css">
 <script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery-1.9.0.js" type="text/javascript"></script>
-<!-- 
-<script>
-	$(function() {
-		$("#link-blog-admin").on('click',function() {
-			$.ajax({
-				url:"${pageContext.servletContext.contextPath}/${authUser.id}/admin/basic",
-				type:"get",
-				dataType:"json",
-				data:"${authUser.id}",
-				success:function(data){
-						location.href = "${pageContext.request.contextPath}/${authUser.id}/admin/basic";
-				}, error:function(error){
-					alert("error" + error);
-				}
-			});
-		});
-	});
 
-</script>
- -->
 </head>
 <body>
 	<div id="container">
-		<div id="header">
-			<h1>${blog.title}</h1>
-			<ul>
-				<c:choose>
-					<c:when test="${empty authUser }">
-						<li><a href="${pageContext.request.contextPath}/user/login">로그인</a></li>
-					</c:when>
-					<c:otherwise>
-						<li><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></li>
-					</c:otherwise>
-				</c:choose>
-				<c:if test="${authUser.id == id}">
-					<li><a id="link-blog-admin" href="${pageContext.servletContext.contextPath}/${authUser.id}/admin/basic">블로그 관리</a></li>
-				</c:if>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="wrapper">
 			<div id="content">
 				<div class="blog-content">
@@ -70,7 +36,7 @@
 				</div>
 				<ul class="blog-list">
 					<c:forEach items='${post}' var='po' varStatus='postStatus'>
-						<li><a href="${pageContext.request.contextPath}/${id}/${po.category_no}/${po.no}">${po.title}</a> <span>${po.reg_date}</span></li>
+						<li><a href="${pageContext.servletContext.contextPath}/${id}/${po.category_no}/${po.no}">${po.title}</a> <span>${po.reg_date}</span></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -78,7 +44,7 @@
 
 		<div id="extra">
 			<div class="blog-logo">
-				<img src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
+				<img src="${pageContext.servletContext.contextPath}${blog.logo}">
 			</div>
 		</div>
 
@@ -87,7 +53,7 @@
 			<ul>
 				<c:set var='count' value='${fn:length(category)}' />
 				<c:forEach items='${category}' var='ct' varStatus='categoryStatus'>
-					<li><a href="${pageContext.request.contextPath}/${id}/${ct.no}">${ct.name}</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/${id}/${ct.no}">${ct.name}</a></li>
 				</c:forEach>
 			</ul>
 		</div>

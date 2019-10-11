@@ -41,13 +41,4 @@ public class BlogController {
 		
 		return "blog/blog-main";
 	}
-	
-//	@ResponseBody
-//	@RequestMapping("/admin/basic")
-//	public String adminBasic(@PathVariable String id) {
-//		System.out.println(id);
-//		return "blog/blog-admin-basic";
-//	}
-//	
-	
 }

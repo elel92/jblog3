@@ -11,20 +11,19 @@
 <script src="${pageContext.servletContext.contextPath}/assets/js/jquery/jquery-1.9.0.js" type="text/javascript"></script>
 <script>
 	$(function() {
-		var cate_no = "";
-		
 		$(".delete-admin-category").on('click', function() {
 			var cate_no = $(this).attr('id');
 			var obg = $(this);
-			
+
 			$.ajax({
 				url:"${pageContext.servletContext.contextPath}/${authUser.id}/admin/delete",
 				type:"get",
 				dataType:"json",
-				data: {"cate_no":cate_no, "aaa":111},
+				data: {"cate_no":cate_no},
 				success:function(data) {
-					$(obg).parent().parent().remove();
-					
+					if(data.equals("success")) {
+						$(obg).parent().parent().remove();
+					}
 				}, error:function(error) {
 					alert("error" + error);
 				}
@@ -32,13 +31,19 @@
 		});
 		
 		$("#insert-admin-category").on('click', function() {
+			var cate_name = $("#cate_name").val();
+			var cate_desc = $("#cate_desc").val();
+			
 			$.ajax({
 				url:"${pageContext.servletContext.contextPath}/${authUser.id}/admin/insert",
 				type:"get",
 				dataType:"json",
-				data:"${authUser.id}",
+				data:{"cate_name":cate_name, "cate_desc":cate_desc},
 				success:function(data) {
-					alert("insert" + data);
+					$("#cate_name").val("");
+					$("#cate_desc").val("");
+					
+					updateTable(data);
 				}, error:function(error) {
 					alert("error" + error);
 				}
@@ -46,8 +51,27 @@
 		});
 	});
 	
-	function remove(aObject, bObject){
+	function updateTable(cate_list) {
+		$(".origin-tbody").remove();
+		$(".new-tbody").remove();
+		$newTbody = $("<tbody class='new-tbody'></tbody>")
+		$(".admin-cat").append($newTbody)
 		
+		var length = cate_list.length;
+		
+		for(var cate in cate_list) {
+			$newTbody.append(
+					"<tr>" +
+					"<td>" + length + "</td>" +
+					"<td>" + cate_list[cate].name + "</td>" +
+					"<td>" + cate_list[cate].post_count + "</td>" +
+					"<td>" + cate_list[cate].description + "</td>" +
+					"<td>" + "<img src='${pageContext.servletContext.contextPath}/assets/images/delete.jpg'>" + "</td>" +
+					"</tr>"
+			);
+			
+			length--;
+		}
 	}
 </script>
 
@@ -63,35 +87,39 @@
 					<li><a href="${pageContext.servletContext.contextPath}/${authUser.id}/admin/write">글작성</a></li>
 				</ul>
 		      	<table class="admin-cat">
-		      		<tr>
-		      			<th>번호</th>
-		      			<th>카테고리명</th>
-		      			<th>포스트 수</th>
-		      			<th>설명</th>
-		      			<th>삭제</th>      			
-		      		</tr>
+		      		<thead>
+			      		<tr>
+			      			<th>번호</th>
+			      			<th>카테고리명</th>
+			      			<th>포스트 수</th>
+			      			<th>설명</th>
+			      			<th>삭제</th>      			
+			      		</tr>
+		      		</thead>
 		      		
-		      		<c:set var="count" value="${fn:length(cate_list)}" />
-					<c:forEach items="${cate_list}" var="ca_li" varStatus="status">
-						<tr>
-							<td>${count-status.index}</td>
-							<td>${ca_li.name}</td>
-							<td>${ca_li.post_count}</td>
-							<td>${ca_li.description}</td>
-							<td><a class="delete-admin-category" href="" id="${ca_li.no}"><img src="${pageContext.servletContext.contextPath}/assets/images/delete.jpg"></a></td>
-						</tr>
-					</c:forEach>
+		      		<tbody class="origin-tbody">
+			      		<c:set var="count" value="${fn:length(cate_list)}" />
+						<c:forEach items="${cate_list}" var="ca_li" varStatus="status">
+							<tr>
+								<td>${count-status.index}</td>
+								<td>${ca_li.name}</td>
+								<td>${ca_li.post_count}</td>
+								<td>${ca_li.description}</td>
+								<td><a class="delete-admin-category" href="" id="${ca_li.no}"><img src="${pageContext.servletContext.contextPath}/assets/images/delete.jpg"></a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
 				</table>
 				
       			<h4 class="n-c">새로운 카테고리 추가</h4>
 		      	<table id="admin-cat-add">
 		      		<tr>
 		      			<td class="t">카테고리명</td>
-		      			<td><input type="text" name="name"></td>
+		      			<td><input type="text" id="cate_name" name="name"></td>
 		      		</tr>
 		      		<tr>
 		      			<td class="t">설명</td>
-		      			<td><input type="text" name="desc"></td>
+		      			<td><input type="text" id="cate_desc" name="desc"></td>
 		      		</tr>
 		      		<tr>
 		      			<td class="s">&nbsp;</td>

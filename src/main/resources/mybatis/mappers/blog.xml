@@ -6,14 +6,10 @@
 		<![CDATA[insert into user values(#{id}, #{name}, #{password}, now())]]>
 	</insert>
 	
-	<select id="select_title" parameterType="String" resultType="blogvo">
-		<![CDATA[select title from blog where id = #{id}]]>
+	<select id="select_blog" parameterType="String" resultType="blogvo">
+		<![CDATA[select title, logo from blog where id = #{id}]]>
 	</select>
-	
-	<select id="select_logo" parameterType="String" resultType="String">
-		<![CDATA[select logo from user where id = #{id}]]>
-	</select>
-	
+
 	<select id="select_category" parameterType="String" resultType="categoryvo">
 		<![CDATA[select no, name, description, reg_date, id from category where id = #{id} order by no desc]]>
 	</select>
